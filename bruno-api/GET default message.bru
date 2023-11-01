@@ -1,0 +1,16 @@
+meta {
+  name: GET default message
+  type: http
+  seq: 1
+}
+
+get {
+  url: http://localhost:8080/demo/message
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+  res("message"): eq Hello Cloud-native students!
+}

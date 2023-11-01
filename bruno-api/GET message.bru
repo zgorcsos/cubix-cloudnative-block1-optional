@@ -1,0 +1,27 @@
+meta {
+  name: GET message
+  type: http
+  seq: 2
+}
+
+get {
+  url: http://localhost:8080/demo/message?message=Hello From Bruno!
+  body: none
+  auth: none
+}
+
+query {
+  message: Hello From Bruno!
+}
+
+assert {
+  res.status: eq 200
+}
+
+tests {
+  test("Query param should appear in the response", function() {
+    const message = req.getUrl().split("?")[1].split("=")[1];
+    expect(res.getBody().message).to.equal(message);
+  });
+  
+}
