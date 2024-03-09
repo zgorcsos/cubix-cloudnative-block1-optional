@@ -1,4 +1,4 @@
-FROM eclipse-temurin:17-jre
+FROM eclipse-temurin:21-jre
 RUN mkdir /opt/app && chown 1001 -R /opt/app
 USER 1001
 WORKDIR /opt/app
