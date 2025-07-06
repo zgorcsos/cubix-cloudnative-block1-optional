@@ -7,7 +7,7 @@ on:
       - "ci/**"
 jobs:
   build-deploy:
-     runs-on: ubuntu-latest
+    runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
