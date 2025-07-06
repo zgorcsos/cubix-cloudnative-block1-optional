@@ -1,9 +1,6 @@
 name: Run Integration Tests on pull request in main branch
 
 on:
-  push:
-    branches:
-      - "ci/**"             
   pull_request:
     branches:
       - main      
