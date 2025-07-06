@@ -1,0 +1,67 @@
+on:
+  push:
+    branches:
+      - main
+      - "ci/**"
+jobs:
+  build-deploy:
+     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          server-id: github
+          cache: 'maven'
+
+      - name: Check Java version
+        run: java -version
+
+      - name: Maven build
+        run: ./mvnw package
+
+      - name: Upload artifact for Docker job
+        uses: actions/upload-artifact@v4
+        with:
+          name: java-app
+          path: '${{ github.workspace }}/target/*.jar'
+
+  docker_build_and_publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write    
+    needs: build_with_maven
+    steps:
+      - uses: actions/checkout@v4    
+      - name: Download artifact from Maven job
+        uses: actions/download-artifact@v4
+        with:
+          name: java-app
+
+      - name: Logging in to Docker container registry
+        run: docker login ghcr.io -u zgorcsos -p ${{ github.token }}
+
+      - name: Docker image build
+        run: docker build . -t ghcr.io/zgorcsos/cubix/1/homework/app:springboot
+
+      - name: Docker image push to image registry
+        run: docker push ghcr.io/zgorcsos/cubix/1/homework/app:springboot
+
+  verify:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write    
+    needs: docker_build_and_publish
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verifing the Docker image
+        run:
+          ./verify-image.sh
