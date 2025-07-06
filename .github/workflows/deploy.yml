@@ -50,10 +50,10 @@ jobs:
         run: docker login ghcr.io -u zgorcsos -p ${{ github.token }}
 
       - name: Docker image build
-        run: docker build . -t ghcr.io/zgorcsos/cubix/1/homework/app:springboot
+        run: docker build . -t ghcr.io/zgorcsos/cubix/1/optional-homework/app:springboot
 
       - name: Docker image push to image registry
-        run: docker push ghcr.io/zgorcsos/cubix/1/homework/app:springboot
+        run: docker push ghcr.io/zgorcsos/cubix/1/optional-homework/app:springboot
 
   verify:
     runs-on: ubuntu-latest
