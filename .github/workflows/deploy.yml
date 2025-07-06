@@ -6,7 +6,7 @@ on:
       - main
       - "ci/**"
 jobs:
-  build-deploy:
+  build:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -38,7 +38,7 @@ jobs:
     permissions:
       contents: read
       packages: write    
-    needs: build_with_maven
+    needs: build
     steps:
       - uses: actions/checkout@v4    
       - name: Download artifact from Maven job
