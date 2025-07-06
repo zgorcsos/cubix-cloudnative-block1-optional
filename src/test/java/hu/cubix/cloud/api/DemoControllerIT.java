@@ -47,6 +47,18 @@ class DemoControllerIT {
                 .andExpect(createMessageJsonPathMatcher(message));
     }
 
+    @Test
+    void demoCombined() throws Exception {
+        var message = "hello";
+        mvc.perform(get("/demo/cubix").queryParam("message", message))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content()
+                        .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(createDateJsonPathMatcher())
+                .andExpect(createTimeJsonPathMatcher())
+                .andExpect(createMessageJsonPathMatcher(message + " " + defaultMessage));
+    }
+
     private ResultMatcher createDateJsonPathMatcher() {
         return MockMvcResultMatchers.jsonPath("$.date", matchesRegex("\\d{4}-\\d{2}-\\d{2}"));
     }

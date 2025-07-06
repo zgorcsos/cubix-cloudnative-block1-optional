@@ -18,6 +18,7 @@
 							"\r",
 							"pm.test(\"Message is default\", function () {\r",
 							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.message).to.eql(\"Hello Cubix Cloud-native DevOps students!\");\r",
 							"    pm.expect(jsonData.message).to.eql(\"Hello DevOps students!\");\r",
 							"});"
 						],

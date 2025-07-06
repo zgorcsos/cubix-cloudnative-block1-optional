@@ -30,4 +30,9 @@ public class DemoController {
         return service.createDemoResponse(message);
     }
 
+    @GetMapping("/cubix")
+    public DemoResponse rootMessage(@RequestParam(name = "message") String message) {
+        return service.createDemoResponse(message + " " + defaultMessage);
+    }
+
 }
